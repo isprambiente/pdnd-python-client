@@ -1,0 +1,125 @@
+# pdnd_client/jwt_generator.py
+
+import time
+import json
+import base64
+import requests
+import jwt  # PyJWT
+import secrets
+from datetime import datetime, timezone
+from jwt import exceptions as jwt_exceptions
+
+
+# This class is responsible for generating a JWT token based on the provided configuration.
+# It uses the PyJWT library to create and sign the token with a private key.
+# The token includes claims such as issuer, subject, audience, and expiration time.
+# The class reads the private key from a file specified in the configuration,
+# and it uses the RS256 algorithm for signing the token.
+# The generated token can be used for authenticating API requests to the PDND service.
+class JWTGenerator:
+    def __init__(self, config):
+        self.config = config
+        self.debug = config.get("debug", False)
+        self.client_id = config.get("clientId")
+        self.endpoint = config.get("endpoint")
+        self.env = config.get("env", "produzione")
+        self.token_exp = None
+        self.endpoint = "https://auth.interop.pagopa.it/token.oauth2"
+        self.aud = "auth.interop.pagopa.it/client-assertion"
+
+    def set_debug(self, debug):
+        self.debug = debug
+
+
+    def set_env(self, env):
+        self.env = env
+        if self.env == "collaudo":
+            self.endpoint = "https://auth.uat.interop.pagopa.it/token.oauth2"
+            self.aud = "auth.uat.interop.pagopa.it/client-assertion"
+
+    def request_token(self):
+
+        with open(self.config.get("privKeyPath"), "rb") as key_file:
+            private_key = key_file.read()
+
+        issued_at = int(time.time())
+        expiration_time = issued_at + (43200 * 60)  # 30 giorni
+        jti = secrets.token_hex(16)
+
+        payload = {
+            "iss": self.config.get("issuer"),
+            "sub": self.config.get("clientId"),
+            "aud": self.aud,
+            "purposeId": self.config.get("purposeId"),
+            "jti": jti,
+            "iat": issued_at,
+            "exp": expiration_time
+        }
+
+        headers = {
+            "kid": self.config.get("kid"),
+            "alg": "RS256",
+            "typ": "JWT"
+        }
+
+        try:
+            client_assertion = jwt.encode(
+                payload,
+                private_key,
+                algorithm="RS256",
+                headers=headers
+            )
+        except jwt_exceptions.PyJWTError as e:
+            raise Exception(f"❌ Errore durante la generazione del client_assertion JWT:\n{str(e)}")
+
+        if self.debug:
+            print(f"\n✅ Enviroment: {self.env}")
+            print("\n✅ Client assertion generato con successo.")
+            print(f"\n📄 JWT (client_assertion):\n{client_assertion}")
+
+        data = {
+            "client_id": self.client_id,
+            "client_assertion": client_assertion,
+            "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+            "grant_type": "client_credentials"
+        }
+
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+
+        try:
+            response = requests.post(self.endpoint, data=data, headers=headers)
+            response.raise_for_status()  # Solleva eccezione per codici HTTP 4xx/5xx
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Errore nella richiesta POST: {e}")
+            return False
+
+        if response.status_code == 200:
+            json_response = response.json()
+            access_token = json_response.get("access_token")
+
+            if access_token:
+                try:
+                    payload_part = access_token.split('.')[1]
+                    padded = payload_part + '=' * (-len(payload_part) % 4)
+                    decoded_payload = json.loads(base64.urlsafe_b64decode(padded))
+                    self.token_exp = decoded_payload.get("exp")
+                except Exception:
+                    self.token_exp = None
+
+                if self.debug:
+                    if self.token_exp:
+                        dt = datetime.fromtimestamp(self.token_exp, tz=timezone.utc)
+                        token_exp_str = dt.astimezone().strftime('%Y-%m-%d %H:%M:%S')
+                    else:
+                        token_exp_str = 'non disponibile'
+
+                    print(f"\n🔐 Access Token:\n{access_token}")
+                    print(f"\n⏰ Scadenza token (exp): {token_exp_str}")
+
+                return access_token, token_exp_str
+            else:
+                raise Exception(f"⚠️ Nessun access token trovato:\n{json.dumps(json_response, indent=2)}")
+
+        return access_token

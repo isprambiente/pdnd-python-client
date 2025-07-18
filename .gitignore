@@ -1,0 +1,8 @@
+# This is a comment in the .gitignore file
+# Ignore node_modules directory
+
+configs/*
+!configs/sample.json
+venv
+.env
+keys
