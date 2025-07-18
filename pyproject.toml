@@ -8,11 +8,15 @@ license = "MIT"
 authors = [
   {name = "Francesco Loreti", email = "francesco.loreti@isprambiente.it"}
 ]
+
 dependencies = [
     "PyJWT>=2.0.0",
     "cryptography",
     "requests"
 ]
+
+[tool.setuptools]
+packages = ["pdnd_client"]
 
 [project.optional-dependencies]
 dev = [
