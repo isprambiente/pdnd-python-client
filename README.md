@@ -1,6 +1,6 @@
 # pdnd-python-client
 
-Client Python per autenticazione e chiamata API PDND (Piattaforma Digitale Nazionale Dati).
+Client Python per autenticazione e interazione con le API della Piattaforma Digitale Nazionale Dati (PDND).
 
 ## Licenza
 
@@ -15,7 +15,7 @@ MIT
 
 1. Installa la libreria via composer:
    ```bash
-   composer require isprambiente/pdnd-client
+   pip install pdnd-python-client
    ```
 
 2. Configura il file JSON con i parametri richiesti (esempio in `configs/sample.json`):
@@ -78,7 +78,7 @@ print(response)
 
 ```
 
-### Fulzioni aggiuntive
+### Funzionalità aggiuntive
 
 **Disabilita verifica certificato SSL**
 
@@ -91,7 +91,7 @@ La funzione `client.save_token(token, exp)` consente di memorizzare il token e l
 
 **Carica il token salvato**
 
-La funzione `client.load_oken()` consente di richiamare il token precedentemente salvato.
+La funzione `client.load_token()` consente di richiamare il token precedentemente salvato.
 
 **Valida il token salvato**
 
@@ -217,4 +217,6 @@ Se un parametro non è presente nel file di configurazione, puoi definirlo come 
 ```
 ---
 
-Per domande o suggerimenti, apri una issue!
+## Contribuire
+
+Le pull request sono benvenute! Per problemi o suggerimenti, apri una issue.
