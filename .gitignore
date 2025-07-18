@@ -3,7 +3,8 @@
 
 configs/*
 !configs/sample.json
-tests/__pycache__
+*.pyc
+__pycache__/
 venv
 .env
 keys
