@@ -9,13 +9,12 @@ import secrets
 from datetime import datetime, timezone
 from jwt import exceptions as jwt_exceptions
 
-
-# This class is responsible for generating a JWT token based on the provided configuration.
-# It uses the PyJWT library to create and sign the token with a private key.
-# The token includes claims such as issuer, subject, audience, and expiration time.
-# The class reads the private key from a file specified in the configuration,
-# and it uses the RS256 algorithm for signing the token.
-# The generated token can be used for authenticating API requests to the PDND service.
+# Questa classe è responsabile della generazione di un token JWT basato sulla configurazione fornita.
+# Utilizza la libreria PyJWT per creare e firmare il token con una chiave privata.
+# Il token include claim come issuer, subject, audience e tempo di scadenza.
+# La classe legge la chiave privata da un file specificato nella configurazione,
+# e utilizza l'algoritmo RS256 per firmare il token.
+# Il token generato può essere utilizzato per autenticare le richieste API al servizio PDND.
 class JWTGenerator:
     def __init__(self, config):
         self.config = config

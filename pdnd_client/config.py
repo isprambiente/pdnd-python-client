@@ -3,11 +3,11 @@
 import json
 import os
 
-# The Config class initializes with a path to a configuration file and an environment key.
-# It reads the configuration from the file and stores it in a dictionary.
-# The get method allows retrieval of specific configuration values, with an optional default.
+# La classe Config viene inizializzata con un percorso verso un file di configurazione e una chiave di ambiente.
+# Legge la configurazione dal file e la memorizza in un dizionario.
+# Il metodo get consente di recuperare valori specifici della configurazione, con un valore predefinito opzionale.
 class Config:
-    # This method initializes the Config object by loading the configuration from a JSON file.
+    # Questo metodo inizializza l'oggetto Config caricando la configurazione da un file JSON.
     def __init__(self, config_path, env):
         self.env = env
         with open(config_path, "r") as f:
@@ -15,6 +15,7 @@ class Config:
         if env not in full_config:
             raise ValueError(f"Environment '{env}' not found in config file.")
         self.config = full_config[env]
-    # This method retrieves a configuration value by key, returning a default value if the key is not found.
+
+    # Questo metodo recupera un valore di configurazione tramite una chiave, restituendo un valore predefinito se la chiave non viene trovata.
     def get(self, key, default=None):
         return self.config.get(key, default)

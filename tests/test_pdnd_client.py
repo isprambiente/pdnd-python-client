@@ -3,21 +3,27 @@ import pytest
 from unittest.mock import patch, Mock
 from pdnd_client.client import PDNDClient
 
-# The following code is a test suite for the PDNDClient class,
-# which tests the functionality of the get_status and post_api methods.
+
+# Il codice seguente è una suite di test per la classe PDNDClient,
+# che verifica il funzionamento dei metodi get_status e post_api.
+# Questi test utilizzano la libreria unittest.mock per simulare le risposte delle richieste HTTP
+# e verificare che il client gestisca correttamente le risposte, sia in caso di successo che di errore.
+# La suite include anche un fixture per inizializzare il client con un token di test e disabilitare la verifica SSL.
 @pytest.fixture
-# Create a fixture to initialize the PDNDClient with a test token and SSL verification disabled.
+
+# Crea un fixture per inizializzare il PDNDClient con un token di test e la verifica SSL disabilitata.
 def client():
     return PDNDClient(token="test-token", verify_ssl=False)
 
-# The test suite includes tests for successful and failed GET and POST requests,
-# ensuring that the client behaves as expected under different conditions.
+# La suite di test include test per richieste GET e POST riuscite e fallite,
+# assicurandosi che il client si comporti come previsto in diverse condizioni.
 def test_get_status_success(client):
     mock_response = Mock()
     mock_response.status_code = 200
     mock_response.text = "OK"
 
-    # Mock the requests.get method to return a predefined response
+
+    # Simula il metodo requests.get per restituire una risposta predefinita
     with patch("pdnd_client.client.requests.get", return_value=mock_response) as mock_get:
         status_code, text = client.get_status("https://example.com/status")
         mock_get.assert_called_once_with(
@@ -28,7 +34,7 @@ def test_get_status_success(client):
         assert status_code == 200
         assert text == "OK"
 
-# Test for successful POST request
+# Test per una richiesta POST riuscita
 def test_post_api_success(client):
     mock_response = Mock()
     mock_response.status_code = 201
@@ -49,7 +55,7 @@ def test_post_api_success(client):
         assert status_code == 201
         assert text == "Created"
 
-# Test for failed GET request
+# Test per una richiesta GET fallita
 def test_get_status_failure(client):
     mock_response = Mock()
     mock_response.status_code = 404
@@ -60,7 +66,7 @@ def test_get_status_failure(client):
         assert status_code == 404
         assert text == "Not Found"
 
-# Test for failed POST request
+# Test per una richiesta POST fallita
 def test_post_api_failure(client):
     mock_response = Mock()
     mock_response.status_code = 400

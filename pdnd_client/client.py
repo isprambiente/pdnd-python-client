@@ -1,9 +1,9 @@
-# The PDNDClient class is responsible for making HTTP requests to the PDND API.
-# It uses the generated JWT for authentication and can handle both GET and POST requests.
-# The script also includes options for debugging and SSL verification,
-# allowing users to see detailed output and control SSL certificate validation.
-# The parse_filters function is used to convert a query string into a dictionary,
-# which can be passed as parameters in API requests.eneration, and API interactions.
+# La classe PDNDClient è responsabile dell'invio di richieste HTTP all'API PDND.
+# Utilizza il JWT generato per l'autenticazione e può gestire sia richieste GET che POST.
+# Lo script include anche opzioni per il debug e la verifica SSL,
+# consentendo agli utenti di visualizzare output dettagliati e controllare la validazione del certificato SSL.
+# La funzione parse_filters viene utilizzata per convertire una stringa di query in un dizionario,
+# che può essere passato come parametro nelle richieste API.
 
 import requests
 import os
@@ -12,8 +12,8 @@ import time
 from datetime import datetime
 from urllib.parse import urlencode
 
-# The PDNDClient class is initialized with a JWT token and an option to verify SSL certificates.
-# It provides methods to make GET and POST requests to specified URLs.
+# La classe PDNDClient viene inizializzata con un token JWT e un'opzione per verificare i certificati SSL.
+# Fornisce metodi per effettuare richieste GET e POST verso URL specificati.
 class PDNDClient:
     def __init__(self):
         self.verify_ssl = True
@@ -25,26 +25,30 @@ class PDNDClient:
         self.token_file = "pdnd_token.json"
         self.token_exp = None  # Token expiration time, if applicable
 
-    # This method retrieves the API URL, which can be overridden by the user.
+    # Questo metodo recupera l'URL dell'API, che può essere sovrascritto dall'utente.
     def get_api_url(self):
         return self.api_url if hasattr(self, 'api_url') else None
 
-    # This method sets the API URL for subsequent requests.
+    # Questo metodo imposta l'URL dell'API per le richieste successive.
     def set_api_url(self, api_url):
         self.api_url = api_url
 
-    # This method sets the filters to be used in API requests.
+    # Questo metodo imposta i filtri da utilizzare nelle richieste API.
     def set_filters(self, filters):
         self.filters = filters
 
-    # This method sets the debug mode, which controls whether detailed output is printed.
+    # Questo metodo imposta la modalità di debug, che controlla se stampare un output dettagliato.
     def set_debug(self, debug):
         self.debug = debug
 
+
+    # Questo metodo imposta il tempo di scadenza per il token.
+    # Può essere una stringa nel formato "YYYY-MM-DD HH:MM:SS" oppure un oggetto datetime.
+    # Se non viene fornito, il valore predefinito è None.
     def set_expiration(self, exp):
         self.token_exp = exp
 
-    # This method sets the status URL for GET requests.
+    # Questo metodo imposta l'URL di stato per le richieste GET.
     def set_status_url(self, status_url):
         self.status_url = status_url
 
@@ -91,7 +95,7 @@ class PDNDClient:
 
         return status_code, body
 
-    # This method performs a GET request to the specified URL and returns the status code and response text.
+    # Questo metodo esegue una richiesta GET all'URL specificato e restituisce il codice di stato e il testo della risposta
     def get_status(self, url):
         headers = {"Authorization": f"Bearer {self.token}"}
         response = requests.get(url, headers=headers, verify=self.verify_ssl)
