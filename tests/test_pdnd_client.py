@@ -1,8 +1,9 @@
 
 import pytest
 from unittest.mock import patch, Mock
+from pdnd_client.config import Config
+from pdnd_client.jwt_generator import JWTGenerator
 from pdnd_client.client import PDNDClient
-
 
 # Il codice seguente è una suite di test per la classe PDNDClient,
 # che verifica il funzionamento dei metodi get_status e get_api.
