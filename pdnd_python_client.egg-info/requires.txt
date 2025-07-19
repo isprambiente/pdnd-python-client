@@ -5,3 +5,4 @@ requests
 [dev]
 pytest
 pytest-watch
+requests-mock

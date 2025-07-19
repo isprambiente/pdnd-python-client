@@ -13,6 +13,7 @@ Requires-Dist: requests
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: pytest-watch; extra == "dev"
+Requires-Dist: requests-mock; extra == "dev"
 Dynamic: license-file
 
 # pdnd-python-client
