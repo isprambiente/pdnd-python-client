@@ -146,26 +146,36 @@ class PDNDClient:
         self.token_exp = data["exp"]
         return data["token"], data["exp"]
 
-
-    def save_token(self, token: str, exp: str, file: str = None) -> bool:
+    # Questo metodo salva il token e la sua data di scadenza in un file JSON.
+    # Il token deve essere una stringa e l'exp può essere una stringa, un intero o un oggetto datetime.
+    # Se il file non esiste, viene creato.
+    # Se il file esiste, viene sovrascritto.
+    # Il formato della data di scadenza deve essere "YYYY-MM-DD HH:MM:SS".
+    # Se il token o l'exp non sono validi, viene sollevata un'eccezione.
+    # Restituisce True se il salvataggio ha successo, False altrimenti.
+    def save_token(self, token: str, exp, file: str = None) -> bool:
         if not token:
             raise ValueError("Il token non può essere vuoto")
-        if not exp:
+        if exp is None:
             raise ValueError("L'exp non può essere vuoto")
         if not isinstance(token, str):
             raise ValueError("Il token deve essere una stringa")
-        if not isinstance(exp, str) and not isinstance(exp, datetime):
-            raise ValueError("L'exp deve essere una stringa o un oggetto datetime")
 
-        file = file or self.token_file  # Usa il file passato o quello di default
-        exp = exp or self.token_exp  # Usa l'exp passato o quello corrente
-        if not isinstance(exp, str):
-            raise ValueError("L'exp deve essere una stringa nel formato 'YYYY-MM-DD HH:MM:SS'")
+        # Conversione di exp in stringa se necessario
+        if isinstance(exp, int):
+            exp = datetime.fromtimestamp(exp).strftime("%Y-%m-%d %H:%M:%S")
+        elif isinstance(exp, datetime):
+            exp = exp.strftime("%Y-%m-%d %H:%M:%S")
+        elif not isinstance(exp, str):
+            raise ValueError("L'exp deve essere una stringa, un intero o un oggetto datetime")
+
+        # Verifica formato stringa
         try:
-            datetime.strptime(exp, "%Y-%m-%d %H:%M:%S")  # Verifica che l'exp sia nel formato corretto
+            datetime.strptime(exp, "%Y-%m-%d %H:%M:%S")
         except ValueError:
             raise ValueError("L'exp deve essere una stringa nel formato 'YYYY-MM-DD HH:MM:SS'")
 
+        file = file or self.token_file
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
@@ -179,3 +189,4 @@ class PDNDClient:
         self.token = token
         self.token_exp = exp
         return True
+

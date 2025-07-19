@@ -47,7 +47,7 @@ from pdnd_client.client import PDNDClient
 
 # Inizializza la configurazione
 # Load the configuration from the specified JSON file and environment key.
-config = Config(args.config, args.env)
+config = Config("./configs/sample.json")
 
 # Initialize the PDND client with the generated JWT token and SSL verification settings.
 client = PDNDClient()
@@ -70,7 +70,7 @@ else:
 client.set_token(token)
 client.set_expiration(exp)
 client.set_api_url("https://www.tuogateway.example.it/indirizzo/della/api")
-client.set_filters(parse_filters("id=1234"))
+client.set_filters("id=1234")
 status_code, response = client.get_api(token)
 
 # Stampa il risultato
