@@ -34,9 +34,16 @@ class PDNDClient:
         self.api_url = api_url
         return True
 
-    # Questo metodo imposta i filtri da utilizzare nelle richieste API.
+    # Imposta i filtri da utilizzare nelle richieste API.
+    # Se viene fornita una stringa, la converte in un dizionario.
     def set_filters(self, filters) -> bool:
-        self.filters = filters
+        if isinstance(filters, str):
+            # Analizza la stringa nel formato "chiave1=val1&chiave2=val2"
+            self.filters = dict(pair.split("=", 1) for pair in filters.split("&") if "=" in pair)
+        elif isinstance(filters, dict):
+            self.filters = filters
+        else:
+            raise ValueError("I filtri devono essere una stringa o un dizionario.")
         return True
 
     # Questo metodo imposta la modalità di debug, che controlla se stampare un output dettagliato.
