@@ -41,9 +41,9 @@ MIT
 
 ```python
 
-from src.config import Config
-from src.jwt_generator import JWTGenerator
-from src.client import PDNDClient
+from pdnd_client.config import Config
+from pdnd_client.jwt_generator import JWTGenerator
+from pdnd_client.client import PDNDClient
 
 # Inizializza la configurazione
 # Load the configuration from the specified JSON file and environment key.
