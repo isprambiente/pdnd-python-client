@@ -1,4 +1,4 @@
-name: Build Package
+name: Test Build Package
 
 on:
   workflow_run:

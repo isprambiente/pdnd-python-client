@@ -43,6 +43,8 @@ jobs:
         run: twine upload dist/*
 
       - name: Create Git tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
           git config user.name "github-actions"
