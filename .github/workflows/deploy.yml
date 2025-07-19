@@ -53,3 +53,9 @@ jobs:
             git tag -a "v$VERSION" -m "Release v$VERSION"
             git push origin "v$VERSION"
           fi
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "Release v$VERSION already exists"
+          else
+            gh release create "v$VERSION" --title "Release v$VERSION" --notes "Automated release for version v$VERSION" dist/*
+          fi
+
