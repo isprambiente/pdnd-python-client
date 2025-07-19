@@ -9,3 +9,4 @@ venv
 .env
 keys
 .pytest_cache
+.pypirc
