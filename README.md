@@ -37,7 +37,30 @@ MIT
       }
     }
    ```
-## Istruzioni
+## Istruzioni base
+
+```python
+
+from pdnd_client.config import Config
+from pdnd_client.jwt_generator import JWTGenerator
+from pdnd_client.client import PDNDClient
+
+config = Config("./configs/sample.json")
+jwt_gen = JWTGenerator(config)
+token, exp = jwt_gen.request_token()
+client = PDNDClient()
+client.set_token(token)
+client.set_expiration(exp)
+client.set_api_url("https://pdnd.isprambiente.it/rest/rendis/v1/oas/rendis/api/v1/infoDissesto")
+client.set_filters("id_intervento=001/B2")
+status_code, response = client.get_api()
+
+# Stampa il risultato
+print(response)
+
+```
+
+## Leggi e Salva il token
 
 ```python
 
@@ -51,24 +74,17 @@ config = Config("./configs/sample.json")
 
 # Initialize the PDND client with the generated JWT token and SSL verification settings.
 client = PDNDClient()
-client.set_token_file(f"tmp/pdnd_token_{config.get("purposeId")}.json")
+# Carica il token file precedentemente salvato
 token, exp = client.load_token()
-
-if client.is_token_valid(exp):
-    # Se il token è valido, lo carica da file
-    token, exp = client.load_token()
-else:
+# verifica la scadenza del token
+if not client.is_token_valid(exp):
     # Generate a JWT token using the loaded configuration.
     jwt_gen = JWTGenerator(config)
-    jwt_gen.set_debug(args.debug)
-    jwt_gen.set_env(args.env)
     # Se il token non è valido, ne richiede uno nuovo
     token, exp = jwt_gen.request_token()
-    # Salva il token per usi futuri
+    # Salva su file esterno il token e la scadenza
     client.save_token(token, exp)
 
-client.set_token(token)
-client.set_expiration(exp)
 client.set_api_url("https://www.tuogateway.example.it/indirizzo/della/api")
 client.set_filters("id=1234")
 status_code, response = client.get_api(token)
@@ -96,6 +112,10 @@ La funzione `client.load_token()` consente di richiamare il token precedentement
 **Valida il token salvato**
 
 La funzione `client.is_token_valid()` verifica la validità del token salvato.
+
+**Imposta nome al token file**
+
+La funzione `client.set_token_file("tmp/tuofile.json")` imposta un nome personalizzato al file.
 
 ## Utilizzo da CLI
 
