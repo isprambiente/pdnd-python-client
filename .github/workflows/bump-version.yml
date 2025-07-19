@@ -1,0 +1,36 @@
+name: Bump Version
+
+on:
+  workflow_run:
+    workflows: ["Python Tests"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Bump patch version in pyproject.toml
+        run: |
+          pip install tomlkit
+          python scripts/bump_version.py
+
+      - name: Commit and push version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git diff --quiet || git commit -am "ci: bump version [skip ci]"
+          git push origin main
