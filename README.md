@@ -51,8 +51,8 @@ token, exp = jwt_gen.request_token()
 client = PDNDClient()
 client.set_token(token)
 client.set_expiration(exp)
-client.set_api_url("https://pdnd.isprambiente.it/rest/rendis/v1/oas/rendis/api/v1/infoDissesto")
-client.set_filters("id_intervento=001/B2")
+client.set_api_url("https://www.tuogateway.example.it/indirizzo/della/api")
+client.set_filters("id=1234")
 status_code, response = client.get_api()
 
 # Stampa il risultato
