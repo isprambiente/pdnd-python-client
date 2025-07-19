@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: pdnd-python-client
-Version: 0.1.0
+Version: 0.1.1
 Summary: Client Python per autenticazione e interazione con le API della Piattaforma Digitale Nazionale Dati (PDND).
 Author-email: Francesco Loreti <francesco.loreti@isprambiente.it>
 License-Expression: MIT
