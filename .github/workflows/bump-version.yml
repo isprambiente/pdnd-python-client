@@ -5,6 +5,7 @@ on:
     workflows: ["Python Tests"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: write

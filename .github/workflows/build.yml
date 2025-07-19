@@ -5,6 +5,7 @@ on:
     workflows: ["Bump Version"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: read

@@ -5,6 +5,7 @@ on:
     workflows: ["Build Package"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: write
