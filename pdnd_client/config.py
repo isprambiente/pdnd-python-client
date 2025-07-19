@@ -10,7 +10,7 @@ class Config:
     # Questo metodo inizializza l'oggetto Config caricando la configurazione da un file JSON.
     def __init__(self, config_path: str = None, env: str ="produzione"):
         if config_path is None:
-            config_path = os.path.join(os.path.dirname(__file__), "..", "configs", "sample.json")
+            config_path = os.path.join(os.path.dirname(__file__), "configs", "sample.json")
 
         self.env = env
         with open(config_path, "r") as f:
