@@ -44,7 +44,7 @@ class JWTGenerator:
             self.aud = "auth.uat.interop.pagopa.it/client-assertion"
         return True
 
-    def request_token(self) -> str:
+    def request_token(self) -> [str, int]:
         if not self.client_id:
             raise ValueError("Client ID non specificato nella configurazione.")
         if not self.privKeyPath:
@@ -68,6 +68,7 @@ class JWTGenerator:
         issued_at = int(time.time())
         expiration_time = issued_at + (43200 * 60)  # 30 giorni
         jti = secrets.token_hex(16)
+        access_token = None
 
         payload = {
             "iss": self.issuer,
@@ -116,7 +117,7 @@ class JWTGenerator:
             response.raise_for_status()  # Solleva eccezione per codici HTTP 4xx/5xx
         except requests.exceptions.RequestException as e:
             print(f"❌ Errore nella richiesta POST: {e}")
-            return False
+            return None
 
         if response.status_code == 200:
             json_response = response.json()
@@ -141,8 +142,9 @@ class JWTGenerator:
                     print(f"\n🔐 Access Token:\n{access_token}")
                     print(f"\n⏰ Scadenza token (exp): {token_exp_str}")
 
-                return access_token, token_exp_str
+                self.token = access_token
+                self.token_exp = self.token_exp or expiration_time
             else:
                 raise Exception(f"⚠️ Nessun access token trovato:\n{json.dumps(json_response, indent=2)}")
 
-        return access_token
+        return self.token, self.token_exp
