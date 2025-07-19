@@ -41,7 +41,6 @@ class PDNDClient:
     def set_debug(self, debug):
         self.debug = debug
 
-
     # Questo metodo imposta il tempo di scadenza per il token.
     # Può essere una stringa nel formato "YYYY-MM-DD HH:MM:SS" oppure un oggetto datetime.
     # Se non viene fornito, il valore predefinito è None.
@@ -100,6 +99,9 @@ class PDNDClient:
         headers = {"Authorization": f"Bearer {self.token}"}
         response = requests.get(url, headers=headers, verify=self.verify_ssl)
         return response.status_code, response.text
+
+    def get_token(self):
+        return self.token
 
     def is_token_valid(self, exp) -> bool:
         if not self.token_exp and not exp:

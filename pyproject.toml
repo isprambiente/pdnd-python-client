@@ -21,7 +21,8 @@ packages = ["pdnd_client"]
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pytest-watch"
+    "pytest-watch",
+    "requests-mock"
 ]
 
 [build-system]
