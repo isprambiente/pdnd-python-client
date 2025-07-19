@@ -10,3 +10,8 @@ venv
 keys
 .pytest_cache
 .pypirc
+dist
+pdnd_python_client.egg-info
+build
+*.egg-info
+*.log
