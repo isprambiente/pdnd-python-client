@@ -8,7 +8,7 @@ import os
 # Il metodo get consente di recuperare valori specifici della configurazione, con un valore predefinito opzionale.
 class Config:
     # Questo metodo inizializza l'oggetto Config caricando la configurazione da un file JSON.
-    def __init__(self, config_path, env):
+    def __init__(self, config_path, env: "produzione"):
         self.env = env
         with open(config_path, "r") as f:
             full_config = json.load(f)
@@ -17,5 +17,5 @@ class Config:
         self.config = full_config[env]
 
     # Questo metodo recupera un valore di configurazione tramite una chiave, restituendo un valore predefinito se la chiave non viene trovata.
-    def get(self, key, default=None):
+    def get(self, key, default=None) -> str:
         return self.config.get(key, default)

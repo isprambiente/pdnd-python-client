@@ -6,6 +6,7 @@ import base64
 import requests
 import jwt  # PyJWT
 import secrets
+import os
 from datetime import datetime, timezone
 from jwt import exceptions as jwt_exceptions
 
@@ -22,23 +23,46 @@ class JWTGenerator:
         self.client_id = config.get("clientId")
         self.endpoint = config.get("endpoint")
         self.env = config.get("env", "produzione")
+        self.privKeyPath = config.get("privKeyPath")
+        self.issuer = self.config.get("issuer")
+        self.clientId = self.config.get("clientId")
+        self.kid = self.config.get("kid")
+        self.purposeId = self.config.get("purposeId")
         self.token_exp = None
         self.endpoint = "https://auth.interop.pagopa.it/token.oauth2"
         self.aud = "auth.interop.pagopa.it/client-assertion"
 
-    def set_debug(self, debug):
+
+    def set_debug(self, debug) -> bool:
         self.debug = debug
+        return True
 
-
-    def set_env(self, env):
+    def set_env(self, env: "produzione") -> bool:
         self.env = env
         if self.env == "collaudo":
             self.endpoint = "https://auth.uat.interop.pagopa.it/token.oauth2"
             self.aud = "auth.uat.interop.pagopa.it/client-assertion"
+        return True
 
-    def request_token(self):
+    def request_token(self) -> str:
+        if not self.client_id:
+            raise ValueError("Client ID non specificato nella configurazione.")
+        if not self.privKeyPath:
+            raise ValueError("Percorso della chiave privata non specificato nella configurazione.")
+        if not os.path.exists(self.privKeyPath):
+            raise FileNotFoundError(f"File della chiave privata non trovato: {self.privKeyPath}")
+        if not self.endpoint:
+            raise ValueError("Endpoint non specificato nella configurazione.")
+        if not self.issuer:
+            raise ValueError("Issuer non specificato nella configurazione.")
+        if not self.clientId:
+            raise ValueError("Client ID non specificato nella configurazione.")
+        if not self.kid:
+            raise ValueError("KID non specificato nella configurazione.")
+        if not self.purposeId:
+            raise ValueError("Purpose ID non specificato nella configurazione.")
 
-        with open(self.config.get("privKeyPath"), "rb") as key_file:
+        with open(self.privKeyPath, "rb") as key_file:
             private_key = key_file.read()
 
         issued_at = int(time.time())
@@ -46,17 +70,17 @@ class JWTGenerator:
         jti = secrets.token_hex(16)
 
         payload = {
-            "iss": self.config.get("issuer"),
-            "sub": self.config.get("clientId"),
+            "iss": self.issuer,
+            "sub": self.clientId,
             "aud": self.aud,
-            "purposeId": self.config.get("purposeId"),
+            "purposeId": self.purposeId,
             "jti": jti,
             "iat": issued_at,
             "exp": expiration_time
         }
 
         headers = {
-            "kid": self.config.get("kid"),
+            "kid": self.kid,
             "alg": "RS256",
             "typ": "JWT"
         }

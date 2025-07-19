@@ -22,45 +22,53 @@ class PDNDClient:
         self.filters = {}
         self.debug = False
         self.token = ""
-        self.token_file = "pdnd_token.json"
+        self.token_file = "tmp/pdnd_token.json"
         self.token_exp = None  # Token expiration time, if applicable
 
     # Questo metodo recupera l'URL dell'API, che può essere sovrascritto dall'utente.
-    def get_api_url(self):
+    def get_api_url(self) -> str:
         return self.api_url if hasattr(self, 'api_url') else None
 
     # Questo metodo imposta l'URL dell'API per le richieste successive.
-    def set_api_url(self, api_url):
+    def set_api_url(self, api_url) -> bool:
         self.api_url = api_url
+        return True
 
     # Questo metodo imposta i filtri da utilizzare nelle richieste API.
-    def set_filters(self, filters):
+    def set_filters(self, filters) -> bool:
         self.filters = filters
+        return True
 
     # Questo metodo imposta la modalità di debug, che controlla se stampare un output dettagliato.
-    def set_debug(self, debug):
+    def set_debug(self, debug) -> bool:
         self.debug = debug
+        return True
 
     # Questo metodo imposta il tempo di scadenza per il token.
     # Può essere una stringa nel formato "YYYY-MM-DD HH:MM:SS" oppure un oggetto datetime.
     # Se non viene fornito, il valore predefinito è None.
-    def set_expiration(self, exp):
+    def set_expiration(self, exp) -> bool:
         self.token_exp = exp
+        return True
 
     # Questo metodo imposta l'URL di stato per le richieste GET.
-    def set_status_url(self, status_url):
+    def set_status_url(self, status_url) -> bool:
         self.status_url = status_url
+        return True
 
-    def set_token(self, token):
+    def set_token(self, token) -> bool:
         self.token = token
+        return True
 
-    def set_token_file(self, token_file):
+    def set_token_file(self, token_file) -> bool:
         self.token_file = token_file
+        return True
 
-    def set_verify_ssl(self, verify_ssl):
+    def set_verify_ssl(self, verify_ssl) -> bool:
         self.verify_ssl = verify_ssl
+        return True
 
-    def get_api(self, token: str):
+    def get_api(self, token: str) -> [int, str]:
         url = self.api_url if hasattr(self, 'api_url') and self.api_url else self.get_api_url()
 
         # Aggiunta dei filtri come query string
@@ -95,12 +103,12 @@ class PDNDClient:
         return status_code, body
 
     # Questo metodo esegue una richiesta GET all'URL specificato e restituisce il codice di stato e il testo della risposta
-    def get_status(self, url):
+    def get_status(self, url)  -> [int, str]:
         headers = {"Authorization": f"Bearer {self.token}"}
         response = requests.get(url, headers=headers, verify=self.verify_ssl)
         return response.status_code, response.text
 
-    def get_token(self):
+    def get_token(self) -> str:
         return self.token
 
     def is_token_valid(self, exp) -> bool:
@@ -112,28 +120,48 @@ class PDNDClient:
             raise ValueError("L'exp deve essere una stringa o un oggetto datetime")
         return time.time() < exp.timestamp()
 
-    def load_token(self, file: str = None):
+    def load_token(self, file: str = None) -> [str, str]:
         file = file or self.token_file  # Usa il file passato o quello di default
 
         if not os.path.exists(file):
-            return None
+            return [None, None]
 
         try:
             with open(file, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except (json.JSONDecodeError, IOError):
-            return None
+            return [None, None]
 
         if not data or "token" not in data or "exp" not in data:
-            return None
+            return [None, None]
 
+        self.token = data["token"]
         self.token_exp = data["exp"]
         return data["token"], data["exp"]
 
 
-    def save_token(self, token: str, exp: str, file: str = None):
+    def save_token(self, token: str, exp: str, file: str = None) -> bool:
+        if not token:
+            raise ValueError("Il token non può essere vuoto")
+        if not exp:
+            raise ValueError("L'exp non può essere vuoto")
+        if not isinstance(token, str):
+            raise ValueError("Il token deve essere una stringa")
+        if not isinstance(exp, str) and not isinstance(exp, datetime):
+            raise ValueError("L'exp deve essere una stringa o un oggetto datetime")
+
         file = file or self.token_file  # Usa il file passato o quello di default
         exp = exp or self.token_exp  # Usa l'exp passato o quello corrente
+        if not isinstance(exp, str):
+            raise ValueError("L'exp deve essere una stringa nel formato 'YYYY-MM-DD HH:MM:SS'")
+        try:
+            datetime.strptime(exp, "%Y-%m-%d %H:%M:%S")  # Verifica che l'exp sia nel formato corretto
+        except ValueError:
+            raise ValueError("L'exp deve essere una stringa nel formato 'YYYY-MM-DD HH:MM:SS'")
+
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+
         data = {
             "token": token,
             "exp": exp
@@ -141,7 +169,6 @@ class PDNDClient:
         with open(file, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)
 
-
-
-
-
+        self.token = token
+        self.token_exp = exp
+        return True
