@@ -75,8 +75,12 @@ class PDNDClient:
         self.verify_ssl = verify_ssl
         return True
 
-    def get_api(self, token: str) -> [int, str]:
+    def get_api(self, token: str = None) -> tuple[int, str]:
         url = self.api_url if hasattr(self, 'api_url') and self.api_url else self.get_api_url()
+        if token is None:
+            token = self.token
+        if not token:
+            raise ValueError("Il token non può essere vuoto")
 
         # Aggiunta dei filtri come query string
         if hasattr(self, 'filters') and self.filters:
