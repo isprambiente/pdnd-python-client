@@ -16,3 +16,6 @@ pdnd_python_client.egg-info/*
 build
 *.egg-info
 *.log
+*.whl
+*.tar.gz
+*.zip
