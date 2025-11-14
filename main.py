@@ -27,6 +27,7 @@ def main():
     parser.add_argument("--api-url", help="URL dell'API da chiamare con POST")
     parser.add_argument("--status-url", help="URL di stato da chiamare con GET")
     parser.add_argument("--debug", action="store_true", help="Abilita l'output di debug")
+    parser.add_argument("--pretty", action="store_true", help="Abilita l'output dei json formattandoli in modo leggibile")
     parser.add_argument("--no-verify-ssl", action="store_true", help="Disabilita la verifica SSL")
     parser.add_argument("--api-url-filters", help="Parametri di query per l'API (es. chiave1=val1&chiave2=val2)")
     args = parser.parse_args()
@@ -67,7 +68,7 @@ def main():
     if args.status_url:
         client.set_status_url(args.status_url)
         status_code, response = client.get_status(args.status_url)
-        if args.debug:
+        if args.debug or args.pretty:
             print(f"\nRisposta API [status_code: {status_code}]")
             parsed = json.loads(response)
             # Stampa in formato leggibile
@@ -81,7 +82,7 @@ def main():
         client.set_api_url(args.api_url)
         client.set_filters(args.api_url_filters)
         status_code, response = client.get_api(token)
-        if args.debug:
+        if args.debug or args.pretty:
             print(f"\nRisposta API [status_code: {status_code}]")
             parsed = json.loads(response)
             # Stampa in formato leggibile

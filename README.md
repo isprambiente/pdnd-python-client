@@ -136,6 +136,7 @@ python main.py --api-url "https://api.pdnd.example.it/resource" --config /config
 - `--env` : Specifica l'ambiente da usare (es. collaudo, produzione). Default: `produzione`
 - `--config` : Specifica il percorso completo del file di configurazione (es: `--config /configs/progetto.json`)
 - `--debug` : Abilita output dettagliato
+- `--pretty` : Abilita l'output dei json formattato in modo leggibile
 - `--api-url` : URL dell’API da chiamare dopo la generazione del token
 - `--api-url-filters` : Filtri da applicare all'API (es. ?parametro=valore)
 - `--status-url` : URL dell’API di status per verificare la validità del token
@@ -159,6 +160,11 @@ python main.py --status-url="https://api.pdnd.example.it/status" --config /confi
 **Debug attivo:**
 ```bash
 python main.py --debug --api-url="https://api.pdnd.example.it/resource"
+```
+
+**Pretty attivo:**
+```bash
+python main.py --pretty --api-url="https://api.pdnd.example.it/resource"
 ```
 
 ### Opzione di aiuto
