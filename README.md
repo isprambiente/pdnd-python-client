@@ -185,6 +185,7 @@ Opzioni:
                     Default: produzione
   --config          Specifica il percorso completo del file di configurazione
   --debug           Abilita output dettagliato
+  --pretty          Abilita output dei json formattandoli in modo leggibile
   --api-url         URL dell’API da chiamare dopo la generazione del token
   --api-url-filters Filtri da applicare all'API (es. ?parametro=valore)
   --status-url      URL dell’API di status per verificare la validità del token
