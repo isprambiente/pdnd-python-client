@@ -37,6 +37,10 @@ class PDNDClient:
     # Imposta i filtri da utilizzare nelle richieste API.
     # Se viene fornita una stringa, la converte in un dizionario.
     def set_filters(self, filters) -> bool:
+        if not filters:
+            self.filters = {}
+            return True
+
         if isinstance(filters, str):
             # Analizza la stringa nel formato "chiave1=val1&chiave2=val2"
             self.filters = dict(pair.split("=", 1) for pair in filters.split("&") if "=" in pair)
