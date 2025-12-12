@@ -1,10 +1,10 @@
 # PDND Python Client
-
-![Python Security Audit](https://github.com/isprambiente/pdnd-python-client/actions/workflows/security-audit.yml/badge.svg)
-![Python CI](https://github.com/isprambiente/pdnd-python-client/actions/workflows/python-ci.yml/badge.svg)
+![Python CI](https://img.shields.io/github/actions/workflow/status/isprambiente/pdnd-python-client/python-ci.yml?label=Python%20CI)
+![Security Audit](https://img.shields.io/github/actions/workflow/status/isprambiente/pdnd-python-client/security-audit.yml?label=Security%20Audit)
 ![License](https://img.shields.io/github/license/isprambiente/pdnd-python-client)
 ![Python Version](https://img.shields.io/pypi/pyversions/pdnd-python-client)
 ![Latest PyPI Version](https://img.shields.io/pypi/v/pdnd-python-client)
+![Downloads](https://pepy.tech/badge/pdnd-python-client)
 
 Client Python per autenticazione e interazione con le API della Piattaforma Digitale Nazionale Dati (PDND).
 
