@@ -8,15 +8,17 @@ license = "MIT"
 authors = [
   {name = "Francesco Loreti", email = "francesco.loreti@isprambiente.it"}
 ]
-
 dependencies = [
     "PyJWT>=2.0.0",
     "cryptography",
     "requests"
 ]
-
-[tool.setuptools]
-packages = ["pdnd_client"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
 
 [project.optional-dependencies]
 dev = [
@@ -24,6 +26,14 @@ dev = [
     "pytest-watch",
     "requests-mock"
 ]
+
+[project.urls]
+Homepage = "https://github.com/isprambiente/pdnd-python-client"
+Issues = "https://github.com/isprambiente/pdnd-python-client/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pdnd_client*"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

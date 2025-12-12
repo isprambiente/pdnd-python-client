@@ -1,5 +1,5 @@
 # PDND Python Client
-![Python CI](https://img.shields.io/github/actions/workflow/status/isprambiente/pdnd-python-client/python-ci.yml?label=Python%20CI)
+![Python CI](https://img.shields.io/github/actions/workflow/status/isprambiente/pdnd-python-client/test.yml?label=Python%20Tests)
 ![Security Audit](https://img.shields.io/github/actions/workflow/status/isprambiente/pdnd-python-client/security-audit.yml?label=Security%20Audit)
 ![License](https://img.shields.io/github/license/isprambiente/pdnd-python-client)
 ![Python Version](https://img.shields.io/pypi/pyversions/pdnd-python-client)
