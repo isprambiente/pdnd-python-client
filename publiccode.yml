@@ -1,0 +1,50 @@
+publiccodeYmlVersion: 0.5.0
+name: PDND Python Client
+applicationSuite: PDNDClient
+url: https://github.com/isprambiente/pdnd-python-client.git
+landingURL: https://github.com/isprambiente/pdnd-python-client
+softwareVersion: 0.1.12
+releaseDate: 2025-12-12
+platforms:
+  - web
+  - windows
+  - linux
+categories:
+  - application-development
+  - it-development
+organisation:
+  uri: urn:x-italian-pa:ispra_rm
+usedBy:
+  - ISPRA
+developmentStatus: stable
+softwareType: library
+description:
+  it:
+    localisedName: PDND Python Client
+    shortDescription: Client Python per autenticazione e chiamata API PDND (Piattaforma
+      Digitale Nazionale Dati).
+    longDescription: Client Python per autenticazione e interazione con le API della Piattaforma Digitale Nazionale Dati (PDND).
+      https://github.com/isprambiente/pdnd-python-client
+    documentation: https://github.com/isprambiente/pdnd-python-client?tab=readme-ov-file#pdnd-python-client
+    apiDocumentation: https://github.com/isprambiente/pdnd-python-client?tab=readme-ov-file#esempio-di-configurazione-minima
+    features:
+      - Compatibile con Python 3.10 e versioni successive
+      - Supporta autenticazione OAuth2 con JWT Bearer Token
+      - Gestione automatica del rinnovo del token di accesso
+      - Facile integrazione con API RESTful di PDND
+      - Documentazione completa e esempi di utilizzo
+      - Open Source con licenza MIT
+      - Audit di sicurezza
+legal:
+  license: MIT
+maintenance:
+  type: internal
+  contacts:
+    - name: Francesco Loreti
+      email: francesco.loreti@isprambiente.it
+      phone: "0650072225"
+      affiliation: ISPRA
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - it-IT
