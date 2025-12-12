@@ -2,7 +2,7 @@ name: Deploy to PyPI
 
 on:
   workflow_run:
-    workflows: ["Test Build Package"]
+    workflows: ["Bump Version"]
     types:
       - completed
   workflow_dispatch:

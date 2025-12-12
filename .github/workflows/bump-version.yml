@@ -1,11 +1,8 @@
 name: Bump Version
 
 on:
-  workflow_run:
-    workflows: ["Python Tests"]
-    types:
-      - completed
-  workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: write
