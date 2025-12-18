@@ -44,11 +44,12 @@ def main():
     token, exp = client.load_token()
 
     if client.is_token_valid(exp):
+        # Se il token è valido, lo carica da file
+        # token, exp = client.load_token()
         if args.debug:
             print(f"\n⏰ Scadenza token (exp): {exp}")
             print("\nToken valido, lo carico da file...")
-        # Se il token è valido, lo carica da file
-        token, exp = client.load_token()
+            print(f"\n{token}\n")
     else:
         if args.debug:
             print("Token non valido o scaduto, ne richiedo uno nuovo...")
