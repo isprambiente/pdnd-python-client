@@ -9,14 +9,14 @@ cryptography==46.0.3
 cyclonedx-python-lib==9.1.0
 defusedxml==0.7.1
 docopt==0.6.2
-docutils==0.22.3
+docutils==0.22.4
 filelock==3.20.1
 id==1.5.0
 idna==3.11
 iniconfig==2.3.0
 jaraco.classes==3.4.0
-jaraco.context==6.0.1
-jaraco.functools==4.3.0
+jaraco.context==6.0.2
+jaraco.functools==4.4.0
 jeepney==0.9.0
 keyring==25.7.0
 license-expression==30.4.4
@@ -36,7 +36,7 @@ py-serializable==2.1.0
 pycparser==2.23
 Pygments==2.19.2
 PyJWT==2.10.1
-pyparsing==3.2.5
+pyparsing==3.3.1
 pyproject_hooks==1.2.0
 pytest==9.0.2
 pytest-watch==4.2.0
