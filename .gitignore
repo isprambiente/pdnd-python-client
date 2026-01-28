@@ -19,3 +19,5 @@ build
 *.whl
 *.tar.gz
 *.zip
+tox.ini
+.tox
