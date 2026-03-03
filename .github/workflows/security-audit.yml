@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 4 * * *' # Audit giornaliero alle 6:00 UTC
+    - cron: '0 4 * * 1' # Audit giornaliero alle 6:00 UTC
 
 permissions:
   contents: read
