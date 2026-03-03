@@ -14,7 +14,7 @@ MIT
 
 ## Requisiti
 
-- Python >= 3.10 (versioni precedenti sono [EOL](https://endoflife.date/python))
+- Python >= 3.12 (versioni precedenti sono [EOL](https://endoflife.date/python))
 - PIP
 
 ## Installazione
