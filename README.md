@@ -27,6 +27,13 @@ MIT
 2. Configura il file JSON con i parametri richiesti (esempio in `configs/sample.json`):
    ```json
     {
+      "attestazione": {
+        "kid": "kid",
+        "issuer": "issuer",
+        "clientId": "clientId",
+        "purposeId": "purposeId",
+        "privKeyPath": "/tmp/key.pem"
+      },
       "collaudo": {
         "kid": "kid",
         "issuer": "issuer",
@@ -51,8 +58,13 @@ from pdnd_client.config import Config
 from pdnd_client.jwt_generator import JWTGenerator
 from pdnd_client.client import PDNDClient
 
+# per produzione:
 config = Config("./configs/sample.json")
+# per collaudo usare invece:
+#config = Config("./configs/sample.json", "collaudo")
 jwt_gen = JWTGenerator(config)
+# per collaudo aggiungere:
+#jwt_gen.set_env("collaudo")
 token, exp = jwt_gen.request_token()
 client = PDNDClient()
 client.set_token(token)
@@ -228,7 +240,7 @@ Se un parametro non è presente nel file di configurazione, puoi definirlo come 
   }
 }
 ```
-## Esempio di configurazione per collaudo e prosuzione
+## Esempio di configurazione per collaudo e produzione
 
 ```json
 {
