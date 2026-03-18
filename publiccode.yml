@@ -3,8 +3,8 @@ name: PDND Python Client
 applicationSuite: PDNDClient
 url: https://github.com/isprambiente/pdnd-python-client.git
 landingURL: https://github.com/isprambiente/pdnd-python-client
-softwareVersion: 0.1.17
-releaseDate: 2026-02-16
+softwareVersion: 0.1.19
+releaseDate: 2026-03-18
 platforms:
   - web
   - windows
