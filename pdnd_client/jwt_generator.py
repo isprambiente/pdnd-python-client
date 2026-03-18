@@ -42,6 +42,9 @@ class JWTGenerator:
         if self.env == "collaudo":
             self.endpoint = "https://auth.uat.interop.pagopa.it/token.oauth2"
             self.aud = "auth.uat.interop.pagopa.it/client-assertion"
+        elif self.env == "attestazione":
+            self.endpoint = "https://auth.att.interop.pagopa.it/token.oauth2"
+            self.aud = "auth.att.interop.pagopa.it/client-assertion"
         return True
 
     def request_token(self) -> [str, int]:

@@ -1,4 +1,11 @@
 {
+  "attestazione": {
+    "kid": "kid",
+    "issuer": "issuer",
+    "clientId": "clientId",
+    "purposeId": "purposeId",
+    "privKeyPath": "/tmp/key.pem"
+  },
   "collaudo": {
     "kid": "kid",
     "issuer": "issuer",
