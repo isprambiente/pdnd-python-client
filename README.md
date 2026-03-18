@@ -39,14 +39,14 @@ MIT
         "issuer": "issuer",
         "clientId": "clientId",
         "purposeId": "purposeId",
-        "privKeyPath": "/tmp/key.priv"
+        "privKeyPath": "/tmp/key.pem"
       },
       "produzione": {
         "kid": "kid",
         "issuer": "issuer",
         "clientId": "clientId",
         "purposeId": "purposeId",
-        "privKeyPath": "/tmp/key.priv"
+        "privKeyPath": "/tmp/key.pem"
       }
     }
    ```
@@ -61,10 +61,10 @@ from pdnd_client.client import PDNDClient
 # per produzione:
 config = Config("./configs/sample.json")
 # per collaudo usare invece:
-#config = Config("./configs/sample.json", "collaudo")
+# config = Config("./configs/sample.json", "collaudo")
 jwt_gen = JWTGenerator(config)
 # per collaudo aggiungere:
-#jwt_gen.set_env("collaudo")
+# jwt_gen.set_env("collaudo")
 token, exp = jwt_gen.request_token()
 client = PDNDClient()
 client.set_token(token)
